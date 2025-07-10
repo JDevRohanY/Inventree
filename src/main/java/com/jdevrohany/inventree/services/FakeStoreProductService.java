@@ -15,7 +15,7 @@ public class FakeStoreProductService implements ProductService{
     }
     @Override
     public Product getSingleProduct(Long id) {
-        FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products" + id, FakeStoreProductDto.class);
+        FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
         Product product = new Product();
         product.setTitle(fakeStoreProductDto.getTitle());
         product.setDescription(fakeStoreProductDto.getDescription());
