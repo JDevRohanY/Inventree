@@ -1,10 +1,9 @@
 package com.jdevrohany.inventree.controller;
 
+import com.jdevrohany.inventree.dtos.CreateProductRequestDto;
 import com.jdevrohany.inventree.models.Product;
 import com.jdevrohany.inventree.services.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ProductController {
@@ -22,9 +21,15 @@ public class ProductController {
     public void getAllProducts(){
 
     }
-
-    public void createProduct(){
-
+    //Create a dto specific to product controller
+    @PostMapping("/product")
+    public Product createProduct(@RequestBody CreateProductRequestDto createProductRequestDto){
+        return productService.createProduct(createProductRequestDto.getTitle(),
+                createProductRequestDto.getDescription(),
+                createProductRequestDto.getImage(),
+                createProductRequestDto.getCategory(),
+                createProductRequestDto.getPrice()
+                );
     }
 
     public void deleteProduct(){

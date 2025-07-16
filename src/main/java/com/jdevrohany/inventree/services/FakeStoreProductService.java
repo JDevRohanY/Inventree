@@ -7,34 +7,50 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+
 @Service
-public class FakeStoreProductService implements ProductService{
-    RestTemplate restTemplate;
-    public FakeStoreProductService(RestTemplate restTemplate){
-        this.restTemplate = restTemplate;
-    }
-    @Override
-    public Product getSingleProduct(Long id) {
-        FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
-        Product product = new Product();
-        product.setTitle(fakeStoreProductDto.getTitle());
-        product.setDescription(fakeStoreProductDto.getDescription());
-        product.setImage(fakeStoreProductDto.getImage());
-        product.setPrice(fakeStoreProductDto.getPrice());
-        Category category = new Category();
-        category.setId("1");
-        category.setName(fakeStoreProductDto.getCategory());
+public class FakeStoreProductService implements ProductService {
+  RestTemplate restTemplate;
 
-        return product;
-    }
+  public FakeStoreProductService(RestTemplate restTemplate) {
+    this.restTemplate = restTemplate;
+  }
 
-    @Override
-    public Product createProduct(String title, String description, String image, String category, double price) {
-        return null;
-    }
+  @Override
+  public Product getSingleProduct(Long id) {
+    FakeStoreProductDto fakeStoreProductDto =
+        restTemplate.getForObject(
+            "https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
+    Product product = new Product();
+    product.setTitle(fakeStoreProductDto.getTitle());
+    product.setDescription(fakeStoreProductDto.getDescription());
+    product.setImage(fakeStoreProductDto.getImage());
+    product.setPrice(fakeStoreProductDto.getPrice());
+    Category category = new Category();
+    category.setId("1");
+    category.setName(fakeStoreProductDto.getCategory());
 
-    @Override
-    public List<Product> getAllProducts() {
-        return null;
-    }
+    return product;
+  }
+
+  @Override
+  public Product createProduct(
+      String title, String description, String image, String category, double price) {
+    FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
+    fakeStoreProductDto.setTitle(title);
+    fakeStoreProductDto.setDescription(description);
+    fakeStoreProductDto.setImage(image);
+    fakeStoreProductDto.setCategory(category);
+    fakeStoreProductDto.setPrice(price);
+
+    FakeStoreProductDto response =
+        restTemplate.postForObject(
+            "https://fakestoreapi.com/products", fakeStoreProductDto, FakeStoreProductDto.class);
+    return response.toProduct();
+  }
+
+  @Override
+  public List<Product> getAllProducts() {
+    return null;
+  }
 }

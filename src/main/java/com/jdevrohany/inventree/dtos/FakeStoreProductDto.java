@@ -1,9 +1,12 @@
 package com.jdevrohany.inventree.dtos;
 
+import com.jdevrohany.inventree.models.Category;
+import com.jdevrohany.inventree.models.Product;
+
 public class FakeStoreProductDto {
     private Integer id;
     private String title;
-    private Float price;
+    private double price;
     private String description;
     private String category;
     private String image;
@@ -24,11 +27,11 @@ public class FakeStoreProductDto {
         this.title = title;
     }
 
-    public Float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -54,5 +57,18 @@ public class FakeStoreProductDto {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Product toProduct() {
+        Product product = new Product();
+        product.setTitle(title);
+        product.setDescription(description);
+        product.setImage(image);
+        product.setPrice(price);
+
+        Category category = new Category();
+        category.setName(getCategory());
+        product.setCategory(category);
+        return product;
     }
 }
