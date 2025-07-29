@@ -1,11 +1,16 @@
 package com.jdevrohany.inventree.services;
 
+import com.jdevrohany.inventree.controller.ProductController;
 import com.jdevrohany.inventree.dtos.FakeStoreProductDto;
 import com.jdevrohany.inventree.models.Category;
 import com.jdevrohany.inventree.models.Product;
+import org.apache.logging.log4j.util.PropertiesUtil;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +32,6 @@ public class FakeStoreProductService implements ProductService {
     product.setImage(fakeStoreProductDto.getImage());
     product.setPrice(fakeStoreProductDto.getPrice());
     Category category = new Category();
-    category.setId("1");
     category.setName(fakeStoreProductDto.getCategory());
 
     return product;
@@ -51,6 +55,21 @@ public class FakeStoreProductService implements ProductService {
 
   @Override
   public List<Product> getAllProducts() {
-    return null;
+    FakeStoreProductDto[] fakeStoreProductDtos =
+        restTemplate.getForObject("https://fakestoreapi.com/products", FakeStoreProductDto[].class);
+    List<Product> products = new ArrayList<>();
+    for (FakeStoreProductDto fakeStoreProductDto : fakeStoreProductDtos) {
+      products.add(fakeStoreProductDto.toProduct());
+    }
+    return products;
+  }
+
+  @Override
+  public Product deleteProduct(Long id) {
+    String url = "https://fakestoreapi.com/products/{id}";
+    ResponseEntity<FakeStoreProductDto> responseEntity =
+        restTemplate.exchange(url, HttpMethod.DELETE, null, FakeStoreProductDto.class, id);
+    FakeStoreProductDto fakeStoreProductDto = responseEntity.getBody();
+    return fakeStoreProductDto.toProduct();
   }
 }

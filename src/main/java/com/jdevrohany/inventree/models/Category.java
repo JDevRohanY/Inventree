@@ -1,25 +1,13 @@
 package com.jdevrohany.inventree.models;
 
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
-public class Category {
-    private String id;
+
+@Getter
+@Setter
+@Entity
+public class Category extends BaseModel {
     private String name;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
 
