@@ -1,8 +1,6 @@
 package com.jdevrohany.inventree.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +10,8 @@ import java.util.Date;
 @MappedSuperclass
 public class BaseModel {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private Date created_at;
     private Date updated_at;
     private boolean isDeleted;

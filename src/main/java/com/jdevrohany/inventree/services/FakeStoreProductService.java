@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService {
   RestTemplate restTemplate;
 
@@ -32,7 +32,7 @@ public class FakeStoreProductService implements ProductService {
     product.setImage(fakeStoreProductDto.getImage());
     product.setPrice(fakeStoreProductDto.getPrice());
     Category category = new Category();
-    category.setName(fakeStoreProductDto.getCategory());
+    category.setTitle(fakeStoreProductDto.getCategory());
 
     return product;
   }

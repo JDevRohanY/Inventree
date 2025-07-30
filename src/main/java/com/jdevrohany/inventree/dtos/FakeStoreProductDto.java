@@ -67,7 +67,7 @@ public class FakeStoreProductDto {
         product.setPrice(price);
 
         Category category = new Category();
-        category.setName(getCategory());
+        category.setTitle(getCategory());
         product.setCategory(category);
         return product;
     }
